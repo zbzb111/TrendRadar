@@ -17,6 +17,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      # 新增：拉取远程最新代码
+      - name: 拉取远程最新代码
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git pull origin master --rebase  # 拉取远程master分支并变基，减少冲突
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -70,3 +76,11 @@ jobs:
           git config --global user.email 'actions@github.com'
           git add -A
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto update by GitHub Actions at $(TZ=Asia/Shanghai date)" && git push)
+
+
+
+
+        # 新增：推送更改到远程
+      - name: 推送更改到远程
+        run: |
+          git push origin master
